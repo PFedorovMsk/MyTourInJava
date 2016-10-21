@@ -29,14 +29,14 @@ public class QuickOpt extends Sort {
             int m1 = median3(arr, left, left + eps, left + 2 * eps);
             int m2 = median3(arr, middle - eps, middle, middle + eps);
             int m3 = median3(arr, right - 2 * eps, right - eps, right);
-            int ninther = median3(arr, m1, m2, m3);
-            swap(arr, ninther, left);
+            int mm = median3(arr, m1, m2, m3);
+            swap(arr, mm, left);
         }
+        innerAlgorithm(arr, left, right);
+    }
 
-        int i = left;
-        int j = right + 1;
-        int p = i;
-        int q = j;
+    private void innerAlgorithm(Comparable[] arr, int left, int right) {
+        int i = left, j = right + 1, p = i, q = j;
         Comparable v = arr[left];
         while (true) {
             while (less(arr[++i], v)) {
@@ -63,7 +63,6 @@ public class QuickOpt extends Sort {
                 swap(arr, --q, j);
             }
         }
-
         i = j + 1;
         for (int k = left; k <= p; k++) {
             swap(arr, k, j--);
@@ -71,33 +70,8 @@ public class QuickOpt extends Sort {
         for (int k = right; k >= q; k--) {
             swap(arr, k, i++);
         }
-
         algorithm(arr, left, j);
         algorithm(arr, i, right);
-    }
-
-    private int partition(Comparable[] arr, int left, int right) {
-        int i = left;
-        int j = right + 1;
-        Comparable value = arr[left];
-        while (true) {
-            while (less(arr[++i], value)) {
-                if (i == right) {
-                    break;
-                }
-            }
-            while (less(value, arr[--j])) {
-                if (j == left) {
-                    break;
-                }
-            }
-            if (i >= j) {
-                break;
-            }
-            swap(arr, i, j);
-        }
-        swap(arr, left, j);
-        return j;
     }
 
     private void insertionSort(Comparable[] array, int left, int right) {
